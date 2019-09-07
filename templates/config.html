@@ -68,27 +68,27 @@ $.getJSON("/json_config", function(result){
         <tr>
             <td id='iname'>A1</td>
             <td><input id='A1' type='number' name='A1' /></td>
-            <td>Initial Acceleration</td>
+            <td>Initial Acceleration - do not exceed 3000</td>
         </tr>
         <tr>
             <td id='iname'>V1</td>
             <td><input id='V1' type='number' name='V1' /></td>
-            <td>Initial Acceleration Speed Limit</td>
+            <td>Initial Acceleration changeover speed</td>
         </tr>
         <tr>
             <td id='iname'>AMAX</td>
             <td><input id='AMAX' type='number' name='AMAX' /></td>
-            <td>Maximum Acceleration</td>
+            <td>Maximum Acceleration - do not exceed 6000</td>
         </tr>
         <tr>
             <td id='iname'>VMAX</td>
             <td><input id='VMAX' type='number' name='VMAX' /></td>
-            <td>Maximum Velocity Limit</td>
+            <td>Maximum Velocity Limit - do not exceed 5120000</td>
         </tr>
         <tr>
             <td id='iname'>DMAX</td>
             <td><input id='DMAX' type='number' name='DMAX' /></td>
-            <td>Maximum Deceleration</td>
+            <td>Maximum Deceleration - do not exceed 6000</td>
         </tr>
         <tr>
             <td id='iname'>D1</td>
@@ -103,6 +103,7 @@ $.getJSON("/json_config", function(result){
 </form>
 
     <p>Any change of <em>Motor Parameters</em> is dynamic</p>
+    <p>Button functions are assigned by URL - see documentation</p>
 
 <script>
 $.getJSON( "/button_config", function( data ) {
