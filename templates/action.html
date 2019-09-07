@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>NeoPixel Driver</title>
+  <meta name="description" content="ODrive Web Interface" />
+  <meta name="keywords" content="ODrive" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="/static/style.css" title="style" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+</head>
+
+<body>
+  <div id="main">
+    <div id="header">
+      <div id="logo">
+        <div id="logo_text">
+          <!-- class="logo_colour", allows you to change the colour of the text -->
+          <h1><a href="index.html">NeoPixel<span class="logo_colour">Driver</span></a></h1>
+          <h2>Simple Web Driven NeoPixel Driver</h2>
+        </div>
+      </div>
+      <div id="menubar">
+        <ul id="menu">
+          <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
+          <li class="selected"><a href="/">Home</a></li>
+          <li><a href="/config">Configuration</a></li>
+          <li><a href="/command">Command Interface</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="site_content">
+      <div class="sidebar">
+        <!-- insert your sidebar items here -->
+        <h3>Information</h3>
+        <h4>Version 2.1 Released</h4>
+        <h5>June 16th, 2017</h5>
+        <p>Version 2.1 adds YAML configuration storage, URL commands and a Web configurator.</a></p>
+        <p></p>
+    
+        <h3>Source Code</h3>
+        <ul>
+          <li><a href="https://github.com/AndyThirtover/Neopixel-Dynamic-Scenes">GitHub Project</a></li>
+        </ul>
+      </div>
+      <div id="content">
+
+      <h2>SocketIO testing</h2>
+
+<script>
+var socket = io.connect('http://' + document.domain + ':' + location.port);
+socket.on('connect', function() {
+    socket.emit('message', {data: 'The Action Page'});
+    console.log("Asked to connect");
+});
+
+
+socket.on('message', function(e){
+  console.log("Got Message:", e.status);
+  $('#connection_status').text(e.status);
+});
+
+
+socket.on('odrive_data', function(e){
+  console.log("Got data:", e);
+  $('#Volts').text(e.volts);
+  $('#Current').text(e.current_limit);
+});
+
+// This seems lame!
+setInterval(function(){
+  socket.emit('get_data',{'data': 'Asked for odrive_data'})
+  }
+  ,1000);
+
+</script>
+
+    <div>Connection: <span id='connection_status'>Unknown</span></div>
+    <div>ODrive Bus Volts: <span id='Volts'>Unknown</span>V</div>
+    <div>ODrive Current Limit: <span id='Current'>Unknown</span>A</div>
+
+      </div>
+    </div>
+    <div id="footer">
+      Copyright &copy; WbAV Productions | <a href="http://wbavproductions.co.uk">WbAV Productions</a> 
+    </div>
+  </div>
+</body>
+</html>

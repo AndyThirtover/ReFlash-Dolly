@@ -1,0 +1,49 @@
+body {
+	font-family: helvetica;
+}
+
+p {
+    color: green;
+    text-align: center;
+}
+
+h1 {
+	font-size: 64px;
+}
+
+td.button {
+		background-color: grey;
+		border-style: solid;
+		width: 200px;
+		border-width: 2px;
+		border-color: black;
+		font-size: 32px;
+		color: white;
+		font-family: helvetica;
+		text-align: center;
+}
+
+td.button:hover {
+	background-color: blue;
+}
+
+
+input, select {
+	background-color: grey;
+	width: 360px;
+	padding: 12px 20px;
+	border: 2px solid black;
+    border-radius: 4px;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+select, textarea {
+	width: 400px;
+}
+
+#iname {
+	font-size: 32px;
+	height: 40px;
+	width: 300px;
+}

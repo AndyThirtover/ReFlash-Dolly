@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>NeoPixel Driver</title>
+  <meta name="description" content="Neo Pixel Scene Driver" />
+  <meta name="keywords" content="Neopixels" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="/static/style.css" title="style" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div id="main">
+    <div id="header">
+      <div id="logo">
+        <div id="logo_text">
+          <!-- class="logo_colour", allows you to change the colour of the text -->
+          <h1><a href="index.html">ODrive<span class="logo_colour">Web Driver</span></a></h1>
+          <h2>Web ODrive Interface</h2>
+        </div>
+      </div>
+      <div id="menubar">
+        <ul id="menu">
+          <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
+          <li><a href="/">Home</a></li>
+          <li><a href="/config">Configuration</a></li>
+          <li class="selected"><a href="/docs">Documentation</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="site_content">
+      <h2>Command URLS</h2>
+      <table>
+        <tr>
+          <th>Command</th>
+          <th>Actions</th>
+        </tr>
+        <tr>
+          <td> trajectory_to 'position'/'speed'</td>
+          <td> Move to 'position' at a maximum of 'speed', another can be issued at any point</td>
+        </tr>
+        <tr>
+          <td> set_state ['IDLE'|'RUN'] </td>
+          <td> sets the motor drive to IDLE or RUN</td>
+        </tr>
+        <tr>
+          <td> current 'value' </td>
+          <td> Set maximium motor current to 'value' in amps</td>
+        </tr>
+        <tr>
+          <td> cancel_trajectory NOP </td>
+          <td> cancels a trajectory_to - the NOP is required </td>
+        </tr>
+      </table>
+
+      <h2>Internal Connections</h2>
+      <table>
+        <tr>
+          <th>Connection</th>
+          <th>Function</th>
+        </tr>
+        <tr>
+          <td> BCM GPIO 5 </td>
+          <td> Button 0 - All Off </td>
+        </tr>
+        <tr>
+          <td> BCM GPIO 6 </td>
+          <td> Button 1 - Configured Function, default 'rotate' </td>
+        </tr>
+        <tr>
+          <td> BCM GPIO 18 </td>
+          <td> NeoPixel Strip 1 Drive </td>
+        </tr>
+      </table>
+
+
+    </div>
+    <div id="footer">
+      Copyright &copy; WbAV Productions | <a href="http://wbavproductions.co.uk">WbAV Productions</a> 
+    </div>
+  </div>
+</body>
+</html>

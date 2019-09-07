@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>ODrive Driver</title>
+  <meta name="description" content="ODrive Web Driver" />
+  <meta name="keywords" content="ODrive" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="/static/style.css" title="style" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+
+</head>
+
+<body>
+
+<script>
+var socket = io.connect('http://' + document.domain + ':' + location.port);
+socket.on('connect', function() {
+    socket.emit('message', {data: 'main index page'});
+    console.log("Asked to connect");
+});
+
+
+socket.on('message', function(e){
+  console.log("Got Message:", e.status);
+  $('#connection_status').text(e.status);
+});
+
+socket.on('login_accepted', function(e){
+  console.log("Got Message:", e.status);
+  window.location = "/" ;
+});
+
+socket.on('Position', function(e){
+  console.log("Got Position:", e.position);
+  console.log("Got Location:", e.location);
+  $(e.location).val(e.position);
+});
+
+
+socket.on('odrive_data', function(e){
+  console.log("Got data:", e);
+  $('#Volts').text(e.volts + 'V');
+  $('#Current').text(e.current_limit + 'A');
+  $('#Speed').text(e.speed + 'PPS');
+  $('#state').text(e.state);
+  $('#rotation_velocity').text(e.rotation_velocity + 'PPS');
+  $('#estimated_pos').text(e.estimated_pos);
+  $('#trajectory_speed_limit').text(e.trajectory_speed_limit + 'PPS');
+  $('#command_current').text(e.command_current + 'A');
+  $('#measured_current').text(e.measured_current + 'A');
+});
+
+// This seems lame! but 10 seconds isn't so much load
+setInterval(function(){
+  socket.emit('get_data',{'data': 'Asked for odrive_data'})
+  }
+  ,10000);
+
+</script>
+<script>
+
+function journey(data_id) {
+    to_pos = $('#' + data_id).val();
+    if (to_pos == '') {
+        alert("Please enter a Position");
+        return;
+    }
+    speed = $('#' + data_id + 'speed').val();
+    socket.emit('do_job',{'trajectory_to': to_pos+'/'+speed});
+}
+
+function read_pos(data_id) {
+    socket.emit('read_pos',{'location': '#' + data_id}) ; 
+}
+
+function do_login() {
+  LoginName = $('#LoginName').val();
+  Password = $('#Password').val();
+  socket.emit('login',{'LoginName': LoginName, 'Password': Password });
+}
+
+</script>
+
+
+  <div id="main">
+    <div id="header">
+      <div id="logo">
+        <div id="logo_text">
+          <!-- class="logo_colour", allows you to change the colour of the text -->
+          <h1><a href="index.html">ODrive<span class="logo_colour">Web Driver</span></a></h1>
+          <h2>LOGIN</h2>
+        </div>
+      </div>
+      <div id="menubar">
+        <ul id="menu">
+          <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
+          <li class="selected"><a href="/">LOGIN</a></li>
+          <li><a href="/config">Configuration</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="site_content">
+      <div class="sidebar">
+        <!-- insert your sidebar items here -->
+        <h3>Information</h3>
+        <h4>Version 1.1 Released</h4>
+        <h5>May 11th, 2019</h5>
+        <p>First Implementation.</a></p>
+        <p></p>
+    
+        <h3>Source Code</h3>
+        <ul>
+          <li><a href="https://github.com/AndyThirtover/ODrive-Web">GitHub Project</a></li>
+        </ul>
+      </div>
+      <div id="content">
+
+
+<table>
+  <tr>
+    <th colspan='4'>USER LOGIN</th>
+  </tr>
+  <tr>
+    <td>USERNAME</td><td><input type='text' id='LoginName'></input></td>
+    <td>PASSWORD</td><td><input type='password' id='Password'></input></td>
+  </tr>
+  <tr>
+    <td id='login' class='go_button' onclick="do_login();" >LOGIN</td> 
+  </tr>
+</table>
+  
+
+</table>
+      </div>
+    </div>
+    <div id="footer">
+      Copyright &copy; WbAV Productions | <a href="http://wbavproductions.co.uk">WbAV Productions</a> 
+    </div>
+  </div>
+</body>
+</html>

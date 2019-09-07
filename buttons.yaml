@@ -1,0 +1,2 @@
+'7': {debounce: 4, url: !!python/unicode 'http://127.0.0.1:5000/command/neo_off'}
+'6': {debounce: 1, url: !!python/unicode 'http://127.0.0.1:5000/command/rotate'}

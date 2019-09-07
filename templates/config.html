@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Trinamic Configuration</title>
+  <meta name="description" content="Trinamic Configuration" />
+  <meta name="keywords" content="Trinamic" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="/static/style.css" title="style" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div id="main">
+    <div id="header">
+      <div id="logo">
+        <div id="logo_text">
+          <!-- class="logo_colour", allows you to change the colour of the text -->
+          <h1><a href="index.html">ODrive<span class="logo_colour">Web Driver</span></a></h1>
+          <h2>Web ODrive Interface</h2>
+        </div>
+      </div>
+      <div id="menubar">
+        <ul id="menu">
+          <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
+          <li><a href="/">Home</a></li>
+          <li class="selected"><a href="/config">Configuration</a></li>
+          <li><a href="/command">Command Interface</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="site_content">
+      <div class="sidebar">
+        <!-- insert your sidebar items here -->
+        <h3>Information</h3>
+        <h4>Version 1,1 Released</h4>
+        <h5>May 11th, 2019</h5>
+        <p>First Implementation.</a></p>
+        <p></p>
+    
+        <h3>Source Code</h3>
+        <ul>
+          <li><a href="https://github.com/AndyThirtover/ODrive-Web">GitHub Project</a></li>
+        </ul>
+      </div>
+
+      <div id="content">
+<script>
+$.getJSON("/json_config", function(result){
+        $.each(result, function(key, field){
+            $('#'+key).val(field) ;
+        });
+    });
+</script>
+
+
+<h1>TRINAMIC CONFIGURATION</h1>
+
+<form>
+    <table>
+        <tr>
+            <th>Register</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td id='iname'>A1</td>
+            <td><input id='A1' type='number' name='A1' /></td>
+            <td>Initial Acceleration</td>
+        </tr>
+        <tr>
+            <td id='iname'>V1</td>
+            <td><input id='V1' type='number' name='V1' /></td>
+            <td>Initial Acceleration Speed Limit</td>
+        </tr>
+        <tr>
+            <td id='iname'>AMAX</td>
+            <td><input id='AMAX' type='number' name='AMAX' /></td>
+            <td>Maximum Acceleration</td>
+        </tr>
+        <tr>
+            <td id='iname'>VMAX</td>
+            <td><input id='VMAX' type='number' name='VMAX' /></td>
+            <td>Maximum Velocity Limit</td>
+        </tr>
+        <tr>
+            <td id='iname'>DMAX</td>
+            <td><input id='DMAX' type='number' name='DMAX' /></td>
+            <td>Maximum Deceleration</td>
+        </tr>
+        <tr>
+            <td id='iname'>D1</td>
+            <td><input id='D1' type='number' name='D1' /></td>
+            <td>Final Deceleration between V1 and STOP</td>
+        </tr>
+        <tr>
+            <td id='iname'>COMPLETE</td>
+            <td><input type='submit' name='submit' value='SYSTEM' /></td>
+        </tr>
+    </table>
+</form>
+
+    <p>Any change of <em>Motor Parameters</em> is dynamic</p>
+
+<script>
+$.getJSON( "/button_config", function( data ) {
+  var items = [];
+  items.push("<tr><th>Pin</th><th>URL Called</th></tr>");
+  $.each( data, function( key, val ) {
+    items.push( "<tr>");
+    items.push( "<td id='" + key + "'>" + key + "</td>" );
+    items.push( "<td><input type='text' name='" + key + "' value='" + val.url + "'</input></td>" );
+    items.push( "</tr>");
+  });
+  items.push("<tr><td>COMPLETE</td><td><input type='submit' name='submit' value='BUTTONS'/></td></tr>");
+ 
+  $( "<table/>", {
+    "class": "bdefinitions",
+    html: items.join( "" )
+  }).appendTo( "#bconfig" );
+});
+</script>
+
+<h1>BUTTON CONFIGURATION</h1>
+<form id='bconfig'>
+</form>
+
+
+      </div>
+
+    </div>
+    <div id="footer">
+      Copyright &copy; WbAV Productions | <a href="http://wbavproductions.co.uk">WbAV Productions</a> 
+    </div>
+  </div>
+</body>
+</html>
