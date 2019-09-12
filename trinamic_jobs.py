@@ -25,6 +25,7 @@ thread_data = {'count' : 0,
                 'VMAX' : 0,
                 'DMAX' : 0,
                 'D1' : 0,
+                'DistRev' : 0,
                 'estimated_pos' : 0,
                 'state' : 0,
                 'command_current' : 0,
@@ -54,6 +55,7 @@ def read_trinamic_config(filename):
         config['VMAX'] = {'80000'}
         config['DMAX'] = {'500'}
         config['D1'] = {'120'}
+        config['DistRev'] = {'80'}
         write_trinamic_config(filename)
     for key,value in config.items():
         thread_data[key] = value
