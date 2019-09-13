@@ -172,22 +172,7 @@ def handle_get_data(message):
     global thread_data
     get_motor_data()
     #print('===================== Received message: ' + repr(message))
-    socketio.emit('odrive_data',{'volts': thread_data['volts'], 
-        'current_limit': thread_data['current_limit'], 
-        'speed': thread_data['speed'],
-        'A1' : thread_data['A1'],
-        'V1' : thread_data['V1'],
-        'AMAX' : thread_data['AMAX'],
-        'VMAX' : thread_data['VMAX'],
-        'DMAX' : thread_data['DMAX'],
-        'D1' : thread_data['D1'],
-        'state' : thread_data['state'],
-        'estimated_pos' : thread_data['estimated_pos'],
-        'rotation_velocity' : thread_data['rotation_velocity'],
-        'command_current' : thread_data['command_current'],
-        'measured_current' : thread_data['measured_current'],
-        'idle' : thread_data['idle']
-        })
+    socketio.emit('motor_data',thread_data)
 
 @socketio.on('do_job')
 def handle_do_job(message):
@@ -204,6 +189,15 @@ def handle_do_job(message):
         job_queue(job, parameter, parameter2)
     handle_get_data('update_clients')   
 
+@socketio.on('save_journey')
+def handle_save_journey(message):
+    print('==================== SAVE JOURNEY: {}'.format(message))
+    save_journey(message)
+
+@socketio.on('load_journey')
+def handle_load_journey(message):
+    print('==================== LOAD JOURNEY: {}'.format(message))
+    socketio.emit('load_journey', load_journey())
 
 
 socketio.run(app, host='0.0.0.0', debug=True)

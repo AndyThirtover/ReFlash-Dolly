@@ -6,6 +6,7 @@ import os.path
 from collections import OrderedDict
 
 trinamic_config_file = "trinamic_config.yaml"
+journey_config_file = "journey.yaml"
 config = {}
 
 nema17={
@@ -26,6 +27,7 @@ thread_data = {'count' : 0,
                 'DMAX' : 0,
                 'D1' : 0,
                 'DistRev' : 0,
+                'mm_per_step' : 0,
                 'estimated_pos' : 0,
                 'state' : 0,
                 'command_current' : 0,
@@ -59,6 +61,8 @@ def read_trinamic_config(filename):
         write_trinamic_config(filename)
     for key,value in config.items():
         thread_data[key] = value
+    config['mm_per_step'] = float(config['DistRev'])/(int(mot.settings['stepsPerRev'])*int(mot.uSC))
+    thread_data['mm_per_step'] = config['mm_per_step']
 
 read_trinamic_config(trinamic_config_file)
 
@@ -75,6 +79,19 @@ def process_trinamic_config(formargs):
     write_trinamic_config(trinamic_config_file)
 
 print("Trinamic Config at start: {0}".format(config))
+
+def save_journey(message):
+    message = dict(message)
+    jfile = open(journey_config_file,'w')
+    jfile.write(yaml.dump(message))
+    jfile.close()
+
+def load_journey(jfile_name=journey_config_file):
+    if os.path.isfile(jfile_name):
+        with open(jfile_name,'r') as jfile:
+            jdata = yaml.load(jfile)
+    return jdata
+
 
 def set_speed(speedval):
     #
@@ -101,10 +118,17 @@ def move_to(pos):
 
 def trajectory_to(to_pos,speed=None):
     print ("TRAJECTORY TO: {} and SPEED: {}".format(int(to_pos),speed))
+    print("MicroSteps: {} DistRev: {} mm_per_step: {}".format(mot.uSC,config['DistRev'],config['mm_per_step']))
+    # in mm
+    to_target = float(to_pos) / config['mm_per_step']
+    print("to_target: {}".format(to_target))
     if speed:
         set_speed(speed)
     thread_data['idle'] = 0 # update UI because this automatically enables the motor
-    mot.async_goto(int(to_pos))
+    #mot.async_goto(float(to_pos)) # this is the rev version.
+    mot.md.enableOutput(True)
+    mot.md.writeInt('XTARGET',int(to_target))
+
 
 def get_motor_data():
     global thread_data

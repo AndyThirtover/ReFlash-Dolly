@@ -298,12 +298,19 @@ td.button:hover {
   background-color: #A0AFA2;
 }
 
+td.button {
+  background-color: #FFFFF4;
+  border-radius: 6px;
+  border: 2px solid #222222;
+}
+
 td.go_button:hover {
-  background-color: #008800;
+  background-color: #888800;
 }
 
 td.go_button {
   background-color: #00FF00;
+  border-radius: 6px;
 }
 
 td.stop_button:hover {
@@ -312,6 +319,7 @@ td.stop_button:hover {
 
 td.stop_button {
   background-color: #FF0000;
+  border-radius: 6px;
 }
 
 td.value, td input{
